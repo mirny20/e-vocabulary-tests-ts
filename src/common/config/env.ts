@@ -15,11 +15,5 @@ export const env = {
       password: required('PASSWORD_MAIN_USER'),
       email: required('EMAIL_MAIN_USER'),
     },
-
-    userWithoutWords: {
-      username: required('USERNAME_CLEAN_USER'),
-      password: required('PASSWORD_CLEAN_USER'),
-      email: required('EMAIL_CLEAN_USER'),
-    }
   }
 }
