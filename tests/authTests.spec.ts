@@ -14,11 +14,11 @@ test.describe('Authorisation tests', async () => {
 
   test('User is able to log in', async () => {
     await authPage.open();
-    await authPage.fillUsernameField(env.users.userWithoutWords.username);
-    await authPage.fillPasswordField(env.users.userWithoutWords.password);
+    await authPage.fillUsernameField(env.users.mainUser.username);
+    await authPage.fillPasswordField(env.users.mainUser.password);
     await authPage.clickLoginButton();
     await homepage.waitForHomePageToBeLoaded();
-    await homepage.verifyLoggedUserEmail(env.users.userWithoutWords.email);
+    await homepage.verifyLoggedUserEmail(env.users.mainUser.email);
   });
 
   test(`Ensure 'Login' button 'enabled' and 'disabled' states`, async () => {
