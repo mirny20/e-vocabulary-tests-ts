@@ -6,17 +6,21 @@ export abstract class BasePage {
   readonly page: Page;
   readonly overlayLoader: Locator;
   readonly userAvatarButton: Locator;
-  readonly dropdownUserMenu: Locator;
+  readonly userMenu: Locator;
   readonly alert_toast_message: Locator;
+  readonly dropdownList: Locator;
+  readonly dropdownListOption: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.overlayLoader = page.locator('.v-overlay__content .v-progress-circular');
     this.userAvatarButton = page.getByRole('banner').getByRole('button');
-    this.dropdownUserMenu = page
+    this.userMenu = page
       .getByRole('menu')
       .filter({ has: page.getByRole('link', { name: 'My account' }) });
     this.alert_toast_message = page.getByRole('alert');
+    this.dropdownList = page.getByRole('listbox');
+    this.dropdownListOption = this.dropdownList.getByRole('option');
   }
 
   async waitForOverlayLoaderToDisappear(): Promise<void> {
@@ -37,10 +41,16 @@ export abstract class BasePage {
     });
   }
 
+  async chooseOptionFromDropdown(option: string, timeout = 1000): Promise<void> {
+    await test.step(`Choose '${option}' option from dropdown list`, async () => {
+      await this.dropdownListOption.getByText(option, { exact: true }).click({timeout});
+    });
+  }
+
   async verifyLoggedUserEmail(email: string): Promise<void> {
     await test.step('Verify that logged in user email is correct', async () => {
       await this.userAvatarButton.click();
-      await expect(this.dropdownUserMenu).toContainText(email);
+      await expect(this.userMenu).toContainText(email);
       await this.userAvatarButton.click();
     });
   }

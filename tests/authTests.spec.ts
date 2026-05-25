@@ -1,15 +1,15 @@
-import { test } from '@playwright/test'
+import { test } from '@fixtures/fixture'
 import { env } from '../src/common/config/env';
 import { AuthPage } from '@pages/AuthPage';
 import { HomePage } from '@pages/HomePage';
 
 test.describe('Authorisation tests', async () => {
   let authPage: AuthPage;
-  let homepage: HomePage;
+  let homePage: HomePage;
 
   test.beforeEach(async ({ page }) => {
     authPage = new AuthPage(page);
-    homepage = new HomePage(page);
+    homePage = new HomePage(page);
   });
 
   test('User is able to log in', async () => {
@@ -17,8 +17,8 @@ test.describe('Authorisation tests', async () => {
     await authPage.fillUsernameField(env.users.mainUser.username);
     await authPage.fillPasswordField(env.users.mainUser.password);
     await authPage.clickLoginButton();
-    await homepage.waitForHomePageToBeLoaded();
-    await homepage.verifyLoggedUserEmail(env.users.mainUser.email);
+    await homePage.waitForHomePageToBeLoaded();
+    await homePage.verifyLoggedUserEmail(env.users.mainUser.email);
   });
 
   test(`Ensure 'Login' button 'enabled' and 'disabled' states`, async () => {
