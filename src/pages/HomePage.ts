@@ -1,6 +1,6 @@
 import { type Locator, type Page } from "@playwright/test";
 import { BasePage } from "./BasePage";
-import { test } from '@fixtures/fixture';
+import { test } from '@playwright/test';
 
 export class HomePage extends BasePage {
   protected readonly URL = '/#/home';
@@ -33,6 +33,7 @@ export class HomePage extends BasePage {
   async openHomePage(): Promise<void> {
     await test.step('Open Home page', async () => {
       await this.page.goto(this.URL);
+      await this.waitForHomePageToBeLoaded();
     });
   }
 

@@ -23,7 +23,7 @@ export abstract class BasePage {
     this.dropdownListOption = this.dropdownList.getByRole('option');
   }
 
-  async waitForOverlayLoaderToDisappear(): Promise<void> {
+  protected async waitForOverlayLoaderToDisappear(): Promise<void> {
     await test.step('Wait for overlay loader to disappear', async () => {
       try {
         await this.overlayLoader.waitFor({ state: 'visible' });
@@ -35,7 +35,7 @@ export abstract class BasePage {
     });
   }
 
-  async waitForPageURL(): Promise<void> {
+  protected async waitForPageURL(): Promise<void> {
     await test.step('Waiting for page to be loaded', async () => {
       await this.page.waitForURL(this.URL);
     });
