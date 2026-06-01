@@ -30,7 +30,7 @@ export class AuthPage extends BasePage {
   }
 
   async fillUsernameField(username: string): Promise<void> {
-    await test.step(`Fill 'Username' field`, async () => {
+    await test.step(`Fill 'Username' field with value '${username}'`, async () => {
       await this.usernameField.fill(username);
     });
   }
@@ -54,7 +54,7 @@ export class AuthPage extends BasePage {
   }
 
   async performLogin(username: string, password: string): Promise<void> {
-    await test.step(`Sign in into application`, async () => {
+    await test.step(`Sign in into application with user '${username}'`, async () => {
       await this.fillUsernameField(username);
       await this.fillPasswordField(password);
       await this.clickLoginButton();
@@ -99,7 +99,7 @@ export class AuthPage extends BasePage {
   async verifyUsernameInvalidCharsErrorIsNotDisplayed(): Promise<void> {
     const errorText = AuthErrorMessages.INVALID_CHARS;
 
-    await test.step(`Expect username filed error is displayed with text: '${errorText}'`,
+    await test.step(`Verify username filed errors is not displayed`,
       async () => {
         await expect(this.usernameFieldError).not.toBeVisible();
       });
