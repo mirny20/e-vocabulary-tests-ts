@@ -39,8 +39,7 @@ export class SetWordsTab extends HomePage {
         await this.fillEngWordField(word);
 
         if (await this.wordAlreadyExistsErrorIsDisplayed()) {
-          //TODO: add logger
-          console.log(`Generated word '${word}' already exists, trying another one`);
+          this.logger.debug(`Generated word '${word}' already exists, trying another one`);
           continue;
         }
 
@@ -48,16 +47,14 @@ export class SetWordsTab extends HomePage {
           const translations = await translationsPromise;
 
           if (translations.length === 0) {
-            //TODO: add logger
-            console.log(`No translation for word '${word}', trying another one`);
+            this.logger.debug(`No translation for word '${word}', trying another one`);
             continue;
           }
 
           return;
 
         } catch (error) {
-          //TODO: add logger
-          console.log(`Attempt ${i + 1} failed for word '${word}' due to error: ${error}`);
+          this.logger.warning(`Attempt ${i + 1} failed for word '${word}' due to error: ${error}`);
           continue;
         }
       }
@@ -83,8 +80,7 @@ export class SetWordsTab extends HomePage {
       try {
         await this.chooseThemeFromDropdownList('default theme');
       } catch {
-        //TODO: add loger
-        console.log('Default theme not found, creating it');
+        this.logger.debug('Default theme not found, creating it');
         await this.themeField.fill('default theme');
         await this.page.keyboard.press('Enter');
       }

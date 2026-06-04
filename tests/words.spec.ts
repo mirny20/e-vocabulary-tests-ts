@@ -2,7 +2,7 @@ import { test } from '@fixtures/fixture'
 import { WordsTab } from '@pages/WordsTab';
 
 
-test('Type correct word translations into word card', async ({ authorizedPage, wordWithTranslation }) => {
+test('Type correct word translation into word card', async ({ authorizedPage, wordWithTranslation }) => {
   const wordsTab = new WordsTab(authorizedPage);
 
   await wordsTab.openWordsTab();

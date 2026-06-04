@@ -43,8 +43,7 @@ export class WordsTab extends HomePage {
     const translation = wordWithTranslation.translation;
 
     await test.step(`Fill translation '${translation}' into word card '${wordEng}'`, async () => {
-      //TODO add logger
-      console.log(`Filling translation '${translation}' for word: '${wordEng}'`);
+      this.logger.debug(`Filling translation '${translation}' for word: '${wordEng}'`);
 
       const wordCardInputCells = await this.getWordCardInputCells(wordEng);
 
@@ -79,15 +78,13 @@ export class WordsTab extends HomePage {
           await this.unloadedWordCard.nth(i).scrollIntoViewIfNeeded({ timeout });
           await expect(this.wordCard.nth(i)).toBeVisible({ timeout });
         }
-        catch {
+        catch (error) {
           if (await this.lastWordsPageOpened()) {
-            //TODO: add logger debug
-            console.log(`Last page of 'Words' tab with less than 10 word cards is displayed`);
-            break
+            this.logger.debug(`Last page of 'Words' tab with less than 10 word cards is displayed`);
+            break;
           }
 
-          //TODO: add logger warning
-          console.log('Failed to load all word cards after scrolling');
+          this.logger.warning(`Failed to load all word cards after scrolling: ${error}`);
         }
       }
     });
