@@ -4,6 +4,9 @@ import { getSavedWordDetails } from '../api/setWordsTab/savedWordDetails.api';
 import { getUserDictionary } from '../api/wordsTab/dictionary.api';
 import { WordsTab } from '@pages/WordsTab';
 import { WordWithTranslation } from '../common/types/dictionary.types';
+import { Logger } from '../common/logger/logger';
+
+const logger = new Logger();
 
 type Fixture = {
   authorizedPage: Page,
@@ -43,6 +46,8 @@ export const test = base.extend<Fixture, WorkerFixture>({
     const wordsOnPage = await wordsTab.getWordsFromAllCardsOnPage();
 
     if (Object.keys(userDictionary).length === 0 || wordsOnPage.length === 0) {
+      logger.debug(`No usable words was found in the user dictionary.
+        Adding new word with 'set word' functionality`);
       await wordsTab.switchToSetWordsTab()
       await setWordsTab.fillEngWordFieldWithTranslatableWord();
       await setWordsTab.chooseFirstTranslation();
@@ -50,16 +55,21 @@ export const test = base.extend<Fixture, WorkerFixture>({
       const wordWithTranslationPromise = getSavedWordDetails(setWordsTab.page);
       await setWordsTab.clickSetWordButton();
       wordWithTranslation = await wordWithTranslationPromise;
-      //TODO: add logger
-      console.log(`Added word: {${wordWithTranslation.word}: ${wordWithTranslation.translation}}`);
+      logger.debug(`New word was added: 
+        {${wordWithTranslation.word}: ${wordWithTranslation.translation}}`);
     }
     else {
       for (const word of wordsOnPage) {
+
         if (Object.hasOwn(userDictionary, word)) {
           wordWithTranslation = {
             word,
             translation: userDictionary[word],
           };
+
+          logger.debug(`Using word founded in user dictionary: 
+            {${wordWithTranslation.word}: ${wordWithTranslation.translation}}`);
+          
           break;
         }
       }

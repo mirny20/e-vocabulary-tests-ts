@@ -1,7 +1,10 @@
 import { type Locator, type Page, expect, test } from "@playwright/test";
+import { Logger } from "../common/logger/logger";
 
 export abstract class BasePage {
   protected abstract readonly URL: string;
+
+  protected logger = new Logger();
 
   readonly page: Page;
   readonly overlayLoader: Locator;
@@ -29,8 +32,7 @@ export abstract class BasePage {
         await this.overlayLoader.waitFor({ state: 'visible' });
         await this.overlayLoader.waitFor({ state: 'hidden' });
       } catch {
-        //TODO: add logger
-        console.log(`Overlay loader was not displayed`);
+        this.logger.warning(`Overlay loader was not displayed`);
       }
     });
   }
