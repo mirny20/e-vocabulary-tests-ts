@@ -43,8 +43,6 @@ export class WordsTab extends HomePage {
     const translation = wordWithTranslation.translation;
 
     await test.step(`Fill translation '${translation}' into word card '${wordEng}'`, async () => {
-      this.logger.debug(`Filling translation '${translation}' for word: '${wordEng}'`);
-
       const wordCardInputCells = await this.getWordCardInputCells(wordEng);
 
       for (let i = 0; i < wordCardInputCells.length; i++) {
