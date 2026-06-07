@@ -7,7 +7,7 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
-  reporter: "html",
+  reporter: "allure-playwright",
 
   expect: {
     timeout: 10_000,
@@ -16,6 +16,7 @@ export default defineConfig({
   use: {
     baseURL: 'https://e-vocabulary.vercel.app',
     trace: "on-first-retry",
+    screenshot: 'only-on-failure',
   },
 
   projects: [
