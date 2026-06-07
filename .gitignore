@@ -1,6 +1,8 @@
 .env
 node_modules/
 test-results/
+allure-results/
+allure-report/
 /playwright/
 /playwright-report/
 blob-report/
