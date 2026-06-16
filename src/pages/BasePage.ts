@@ -29,10 +29,10 @@ export abstract class BasePage {
   protected async waitForOverlayLoaderToDisappear(): Promise<void> {
     await test.step('Wait for overlay loader to disappear', async () => {
       try {
-        await this.overlayLoader.waitFor({ state: 'visible' });
-        await this.overlayLoader.waitFor({ state: 'hidden' });
+        await this.overlayLoader.waitFor({ state: 'visible', timeout: 2_000 });
+        await this.overlayLoader.waitFor({ state: 'hidden', timeout: 10_000 });
       } catch {
-        this.logger.warning(`Overlay loader was not displayed`);
+        this.logger.warning(`Overlay loader was not displayed or frozen`);
       }
     });
   }
