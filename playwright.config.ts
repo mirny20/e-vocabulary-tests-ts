@@ -7,7 +7,7 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
-  reporter: "allure-playwright",
+  reporter: [['list'], ['allure-playwright']],
 
   expect: {
     timeout: 10_000,
