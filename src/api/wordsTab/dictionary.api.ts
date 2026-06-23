@@ -13,15 +13,15 @@ export async function getUserDictionary(page: Page, timeout = 10_000): Promise<D
 
   const responseData = await (await responsePromise).json();
 
-  const Dictionary: Record<string, string> = {};
+  const userDictionary: Record<string, string> = {};
 
   try {
     for (const key in responseData) {
-      Dictionary[key] = responseData[key].translate;
+      userDictionary[key] = responseData[key].translate;
     }
   } catch (error) {
     throw new Error(`Error during parsing Dictionary: ${error}`);
   }
 
-  return Dictionary;
+  return userDictionary;
 }
