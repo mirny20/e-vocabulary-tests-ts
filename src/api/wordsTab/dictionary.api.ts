@@ -13,7 +13,7 @@ export async function getUserDictionary(page: Page, timeout = 10_000): Promise<D
 
   const responseData = await (await responsePromise).json();
 
-  const userDictionary: Record<string, string> = {};
+  const userDictionary: Dictionary = {};
 
   try {
     for (const key in responseData) {
