@@ -5,6 +5,8 @@ import { getUserDictionary } from '../api/wordsTab/dictionary.api';
 import { WordsTab } from '@pages/WordsTab';
 import { WordWithTranslation } from '../common/types/dictionary.types';
 import { Logger } from '../common/logger/logger';
+import * as fs from 'fs';       // <--- НОВОЕ
+import * as path from 'path';
 
 const logger = new Logger();
 
@@ -84,3 +86,16 @@ export const test = base.extend<Fixture, WorkerFixture>({
     await authorizedContext.close();
   },
 })
+
+test.afterEach(async ({}, testInfo) => {
+  if (testInfo.status !== testInfo.expectedStatus) {
+    const tracePath = path.join(testInfo.outputDir, 'trace.zip');
+    
+    if (fs.existsSync(tracePath)) {
+      await testInfo.attach('playwright-trace', {
+        path: tracePath,
+        contentType: 'application/zip',
+      });
+    }
+  }
+});
