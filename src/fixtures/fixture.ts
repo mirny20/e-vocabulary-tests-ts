@@ -5,7 +5,7 @@ import { getUserDictionary } from '../api/wordsTab/dictionary.api';
 import { WordsTab } from '@pages/WordsTab';
 import { WordWithTranslation } from '../common/types/dictionary.types';
 import { Logger } from '../common/logger/logger';
-import * as fs from 'fs';       // <--- НОВОЕ
+import * as fs from 'fs';
 import * as path from 'path';
 
 const logger = new Logger();
