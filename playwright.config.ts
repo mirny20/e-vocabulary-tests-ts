@@ -15,7 +15,7 @@ export default defineConfig({
 
   use: {
     baseURL: 'https://e-vocabulary.vercel.app',
-    trace: "retain-on-failure",
+    trace: "on",
     screenshot: 'only-on-failure',
   },
 
