@@ -37,7 +37,7 @@ test(`Ensure 'Login' button 'enabled' and 'disabled' states`, async () => {
 });
 
 test('Alert message is displayed when credentials are invalid', async () => {
-  test.fail(true);
+  // test.fail(true);
   allure.description('Expected fail. Known issue: alert toast message is not displayed');
 
   await authPage.open();
