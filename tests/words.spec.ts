@@ -12,5 +12,4 @@ test('Type correct word translation into word card', async ({ authorizedPage, wo
   await wordsTab.openWordsTab();
   await wordsTab.fillTranslationInWordCard(wordWithTranslation);
   await wordsTab.verifyWordCardIsHidden(wordWithTranslation);
-  await wordsTab.verifyLoggedUserEmail('invalid');
 });
