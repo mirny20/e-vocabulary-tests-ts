@@ -38,6 +38,24 @@ jobs:
         USERNAME_MAIN_USER: ${{ secrets.USERNAME_MAIN_USER }}
         PASSWORD_MAIN_USER: ${{ secrets.PASSWORD_MAIN_USER }}
         EMAIL_MAIN_USER: ${{ secrets.EMAIL_MAIN_USER }}
+    - name: Debug trace files
+      if: ${{ !cancelled() }}
+      run: |
+        echo "== Playwright output =="
+        find test-results -name 'trace.zip' -exec ls -la {} \;
+        echo "== Allure results with a trace attachment =="
+        for f in allure-results/*-result.json; do
+          node -e 'const r=require(process.argv[1]);console.log(r.name, "|", r.status, "| trace:", JSON.stringify(r).includes("playwright-trace"))' "$(realpath "$f")"
+        done
+    - name: Upload raw results
+      uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: raw-results
+        path: |
+          test-results/
+          allure-results/
+        retention-days: 7
     - name: Generate Allure Report
       if: ${{ !cancelled() }}
       run: |
