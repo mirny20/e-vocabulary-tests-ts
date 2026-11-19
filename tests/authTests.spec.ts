@@ -47,12 +47,61 @@ test('Alert message is displayed when credentials are invalid', async () => {
 
 test('Username field accepts only latin characters and numbers', async () => {
   await authPage.open();
-  await authPage.fillUsernameField('кирилиця');
-  await authPage.verifyUsernameInvalidCharsErrorIsDisplayed();
 
-  await authPage.fillUsernameField('@;№%');
-  await authPage.verifyUsernameInvalidCharsErrorIsDisplayed();
+  for (const invalidUsername of ['кирилиця', '@;№%', 'ab cd', 'abc_1', 'abc-1']) {
+    await authPage.fillUsernameField(invalidUsername);
+    await authPage.verifyUsernameInvalidCharsErrorIsDisplayed();
+  }
 
-  await authPage.fillUsernameField('abc');
-  await authPage.verifyUsernameInvalidCharsErrorIsNotDisplayed();
+  for (const validUsername of ['abc', 'ABC', 'abc123', '123']) {
+    await authPage.fillUsernameField(validUsername);
+    await authPage.verifyUsernameInvalidCharsErrorIsNotDisplayed();
+  }
+});
+
+test(`User is able to log in by pressing 'Enter' in 'Password' field`, async () => {
+  await authPage.open();
+  await authPage.fillUsernameField(env.users.mainUser.username);
+  await authPage.fillPasswordField(env.users.mainUser.password);
+  await authPage.submitLoginWithEnterKey();
+  await homePage.waitForHomePageToBeLoaded();
+  await homePage.verifyLoggedUserEmail(env.users.mainUser.email);
+});
+
+test('User stays on Auth page when credentials are invalid', async () => {
+  await authPage.open();
+  await authPage.performLogin('invalidUsername', 'invalidPass');
+
+  await authPage.verifyAuthPageIsOpened();
+  await authPage.verifyLoginFormIsDisplayed();
+  await authPage.verifyAuthTokenIsNotStored();
+});
+
+test('Password field input is masked', async () => {
+  await authPage.open();
+  await authPage.fillPasswordField('secretPass');
+  await authPage.verifyPasswordFieldIsMasked();
+});
+
+test('User is able to switch between Login and Registration forms', async () => {
+  await authPage.open();
+  await authPage.verifyLoginFormIsDisplayed();
+
+  await authPage.clickSwitchToRegistrationButton();
+  await authPage.verifyRegistrationFormIsDisplayed();
+  await authPage.verifyAuthPageIsOpened();
+
+  await authPage.clickSwitchToLoginButton();
+  await authPage.verifyLoginFormIsDisplayed();
+});
+
+test('Entered username is kept after switching to Registration form and back', async () => {
+  await authPage.open();
+  await authPage.fillUsernameField('testUsername');
+
+  await authPage.clickSwitchToRegistrationButton();
+  await authPage.verifyUsernameFieldValue('testUsername');
+
+  await authPage.clickSwitchToLoginButton();
+  await authPage.verifyUsernameFieldValue('testUsername');
 });
